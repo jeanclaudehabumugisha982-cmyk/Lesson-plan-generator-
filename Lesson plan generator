@@ -1,0 +1,286 @@
+index html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lesson Planner | Professional Educator Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; }
+        .plan-card { transition: transform 0.2s ease; }
+        .plan-card:hover { transform: translateY(-2px); }
+        @media print {
+            .no-print { display: none !important; }
+            .print-area { border: none !important; box-shadow: none !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            body { background: white !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+
+    <nav class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 py-4 px-6 sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="bg-brand-600 text-white p-2 rounded-lg">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-brand-900 dark:text-white">SmartPlan</span>
+            </div>
+            <div class="hidden md:flex gap-8 font-medium">
+                <a href="#generator" class="hover:text-brand-600">Planner</a>
+                <a href="#dashboard" class="hover:text-brand-600">My Dashboard</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500">
+                    <i class="fas fa-circle-half-stroke"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="py-12 px-6 no-print bg-gradient-to-b from-white to-slate-50 dark:from-slate-800 dark:to-slate-900">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="px-4 py-1.5 bg-brand-50 text-brand-600 rounded-full text-xs font-bold uppercase tracking-wider mb-4 inline-block">v1.0 Launch</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Effortless Lesson Planning.</h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 mb-8">Generate, save, and export high-quality English and French lesson plans in minutes.</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <div class="grid lg:grid-cols-2 gap-12">
+            
+            <section id="generator" class="no-print">
+                <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <i class="fas fa-edit text-brand-600"></i> New Plan
+                    </h2>
+                    
+                    <form id="lessonForm" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="text-sm font-semibold opacity-70">Language</label>
+                                <select id="lang" class="w-full p-3 rounded-lg border dark:bg-slate-700 dark:border-slate-600">
+                                    <option value="English">English</option>
+                                    <option value="French">Français</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-sm font-semibold opacity-70">Duration</label>
+                                <input type="text" id="duration" placeholder="e.g. 50 mins" class="w-full p-3 rounded-lg border dark:bg-slate-700 dark:border-slate-600" required>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold opacity-70">Topic</label>
+                            <input type="text" id="topic" placeholder="e.g. Environmental Awareness" class="w-full p-3 rounded-lg border dark:bg-slate-700 dark:border-slate-600" required>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold opacity-70">Target Grade</label>
+                            <input type="text" id="grade" placeholder="e.g. 10th Grade / Seconde" class="w-full p-3 rounded-lg border dark:bg-slate-700 dark:border-slate-600" required>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-sm font-semibold opacity-70">Learning Objectives</label>
+                            <textarea id="objectives" rows="3" class="w-full p-3 rounded-lg border dark:bg-slate-700 dark:border-slate-600" placeholder="By the end of this lesson, students will be able to..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-brand-200 dark:shadow-none">
+                            Generate & Preview
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="preview-area" class="space-y-6">
+                <div class="flex justify-between items-center no-print">
+                    <h2 class="text-2xl font-bold">Document Preview</h2>
+                    <div class="flex gap-2">
+                        <button onclick="saveCurrentPlan()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-emerald-700">
+                            <i class="fas fa-save mr-1"></i> Save to Dashboard
+                        </button>
+                        <button onclick="window.print()" class="bg-slate-200 dark:bg-slate-700 px-4 py-2 rounded-lg text-sm font-bold">
+                            <i class="fas fa-print"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="outputPlan" class="bg-white text-slate-900 p-8 md:p-12 rounded-lg shadow-2xl border border-slate-200 min-h-[700px] print-area">
+                    <div class="text-center text-slate-400 py-20">
+                        <i class="fas fa-file-lines text-6xl mb-4 opacity-20"></i>
+                        <p>Fill out the form to generate your professional plan.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section id="dashboard" class="mt-24 no-print border-t border-slate-200 dark:border-slate-700 pt-12">
+            <h2 class="text-3xl font-bold mb-8">Teacher Dashboard</h2>
+            <div id="savedPlansGrid" class="grid md:grid-cols-3 gap-6">
+                </div>
+        </section>
+    </main>
+
+    <footer class="bg-white dark:bg-slate-800 mt-20 py-12 border-t border-slate-200 dark:border-slate-700 no-print">
+        <div class="max-w-7xl mx-auto px-6 text-center text-slate-500">
+            <p>© 2025 Smart Lesson Planner. Built for the modern classroom.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentPlanData = null;
+
+        // Dark Mode Logic
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        }
+
+        // Initialization
+        window.onload = () => {
+            if (localStorage.getItem('darkMode') === 'true') document.documentElement.classList.add('dark');
+            renderSavedPlans();
+        };
+
+        const form = document.getElementById('lessonForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            generatePlan();
+        });
+
+        function generatePlan() {
+            const data = {
+                id: Date.now(),
+                lang: document.getElementById('lang').value,
+                grade: document.getElementById('grade').value,
+                topic: document.getElementById('topic').value,
+                duration: document.getElementById('duration').value,
+                objectives: document.getElementById('objectives').value,
+                date: new Date().toLocaleDateString()
+            };
+            currentPlanData = data;
+            renderPlanUI(data);
+        }
+
+        function renderPlanUI(data) {
+            const isFr = data.lang === 'French';
+            const output = document.getElementById('outputPlan');
+            
+            output.innerHTML = `
+                <div class="border-b-2 border-slate-900 pb-6 mb-8 flex justify-between items-end">
+                    <div>
+                        <h1 class="text-2xl font-black uppercase tracking-tighter">${isFr ? 'Fiche de Préparation' : 'Lesson Plan Document'}</h1>
+                        <p class="text-sm font-bold text-brand-600">${data.topic}</p>
+                    </div>
+                    <div class="text-right text-xs">
+                        <p><strong>${isFr ? 'Date' : 'Date'}:</strong> ${data.date}</p>
+                        <p><strong>${isFr ? 'Niveau' : 'Grade'}:</strong> ${data.grade}</p>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="grid grid-cols-2 gap-8 bg-slate-50 p-4 rounded border border-slate-100">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase text-slate-500 mb-1">${isFr ? 'Sujet' : 'Topic'}</h4>
+                            <p class="text-sm font-semibold">${data.topic}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold uppercase text-slate-500 mb-1">${isFr ? 'Durée' : 'Duration'}</h4>
+                            <p class="text-sm font-semibold">${data.duration}</p>
+                        </div>
+                    </div>
+
+                    <section>
+                        <h3 class="text-sm font-bold uppercase bg-slate-900 text-white px-2 py-1 mb-3 inline-block">${isFr ? 'Objectifs' : 'Learning Objectives'}</h3>
+                        <p class="text-sm leading-relaxed">${data.objectives}</p>
+                    </section>
+
+                    <table class="w-full border-collapse border border-slate-300">
+                        <thead class="bg-slate-50 text-[10px] uppercase font-bold">
+                            <tr>
+                                <th class="border border-slate-300 p-2 text-left w-1/2">${isFr ? 'Activités de l\'enseignant' : 'Teacher Activities'}</th>
+                                <th class="border border-slate-300 p-2 text-left w-1/2">${isFr ? 'Activités de l\'apprenant' : 'Learner Activities'}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs">
+                            <tr>
+                                <td class="border border-slate-300 p-3"><strong>Intro:</strong> ${isFr ? 'Mise en train et rappel.' : 'Hook and Review.'}</td>
+                                <td class="border border-slate-300 p-3">${isFr ? 'Écoute et répond.' : 'Listening and responding.'}</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-300 p-3"><strong>Core:</strong> ${isFr ? 'Explication de la structure de ' : 'Explanation of '} ${data.topic}.</td>
+                                <td class="border border-slate-300 p-3">${isFr ? 'Prise de notes et pratique guidée.' : 'Note-taking and guided practice.'}</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-slate-300 p-3"><strong>Eval:</strong> ${isFr ? 'Vérification de la compréhension.' : 'Check for understanding.'}</td>
+                                <td class="border border-slate-300 p-3">${isFr ? 'Exercice d\'application.' : 'Independent exercise.'}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pt-8 mt-8 border-t border-dotted border-slate-300 text-[10px]">
+                        <p>${isFr ? 'Devoirs: Pratiquez les concepts abordés aujourd\'hui.' : 'Homework: Practice the concepts covered today.'}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function saveCurrentPlan() {
+            if (!currentPlanData) return alert('Generate a plan first!');
+            let saved = JSON.parse(localStorage.getItem('myPlans') || '[]');
+            saved.unshift(currentPlanData);
+            localStorage.setItem('myPlans', JSON.stringify(saved));
+            renderSavedPlans();
+            alert('Plan saved to your dashboard!');
+        }
+
+        function renderSavedPlans() {
+            const grid = document.getElementById('savedPlansGrid');
+            const saved = JSON.parse(localStorage.getItem('myPlans') || '[]');
+            
+            if (saved.length === 0) {
+                grid.innerHTML = `<div class="col-span-3 text-center py-10 opacity-50 italic">No plans saved yet.</div>`;
+                return;
+            }
+
+            grid.innerHTML = saved.map(plan => `
+                <div class="plan-card bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[10px] font-bold uppercase px-2 py-1 bg-brand-50 text-brand-600 rounded">${plan.lang}</span>
+                        <span class="text-[10px] opacity-50">${plan.date}</span>
+                    </div>
+                    <h3 class="font-bold mb-1">${plan.topic}</h3>
+                    <p class="text-xs opacity-70 mb-4">${plan.grade}</p>
+                    <button onclick='loadPlan(${JSON.stringify(plan)})' class="text-brand-600 text-xs font-bold hover:underline">View Plan →</button>
+                </div>
+            `).join('');
+        }
+
+        function loadPlan(plan) {
+            currentPlanData = plan;
+            renderPlanUI(plan);
+            window.scrollTo({ top: document.getElementById('preview-area').offsetTop - 100, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
